@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6eb7fb9c6e760d9c1b254b05f82f787",
+    "content-hash": "b06b857f30db2459733da74be902a65c",
     "packages": [
         {
             "name": "doctrine/sql-formatter",
             "version": "dev-temp-until-pr-merged",
             "source": {
                 "type": "git",
-                "url": "git@github.com:othyn/sql-formatter.git",
+                "url": "https://github.com/othyn/sql-formatter.git",
                 "reference": "72b5a7ce36e612c45e6a47b9169b0b51f536fb3c"
             },
             "dist": {
@@ -56,6 +56,9 @@
                 "highlight",
                 "sql"
             ],
+            "support": {
+                "source": "https://github.com/othyn/sql-formatter/tree/temp-until-pr-merged"
+            },
             "time": "2021-04-08T20:58:35+00:00"
         }
     ],
@@ -1862,16 +1865,16 @@
         },
         {
             "name": "opis/closure",
-            "version": "3.6.1",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5"
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
-                "reference": "943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5",
+                "url": "https://api.github.com/repos/opis/closure/zipball/06e2ebd25f2869e54a306dda991f7db58066f7f6",
+                "reference": "06e2ebd25f2869e54a306dda991f7db58066f7f6",
                 "shasum": ""
             },
             "require": {
@@ -1921,9 +1924,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.1"
+                "source": "https://github.com/opis/closure/tree/3.6.2"
             },
-            "time": "2020-11-07T02:01:34+00:00"
+            "time": "2021-04-09T13:42:10+00:00"
         },
         {
             "name": "orchestra/testbench",
