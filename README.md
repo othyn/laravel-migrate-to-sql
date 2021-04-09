@@ -9,6 +9,8 @@ Quickly convert and export all Laravel migrations into an SQL file, or to TTY, w
 $ php artisan migrate:to-sql
 ```
 
+---
+
 ## Index
 
 -   [Installation](#installation)
@@ -51,6 +53,8 @@ Options:
     ... laravel default options ...
 ```
 
+---
+
 ### Usage - Default behaviour
 
 By default, the command will:
@@ -58,6 +62,8 @@ By default, the command will:
 -   Generate SQL for the `up` migrations
 -   Generate the SQL queries to disk, in the root of your project directory, `base_path()` in the name format `migrations.{type}.{Y_m_d__His}.sql`.
 -   Prettify the SQL output into structured queries
+
+---
 
 ### Usage - Output a specific type of migration
 
@@ -83,6 +89,8 @@ DROP
 -- etc...
 ```
 
+---
+
 ### Usage - Output to a specific custom export path
 
 If you wish for the command to export to a custom defined location, then pass it with the `--exportPath` option, for example:
@@ -103,6 +111,8 @@ ADD
 -- etc...
 ```
 
+---
+
 ### Usage - Output without formatting or prettifying the query
 
 If you wish for the command to export the queries without doing any sort of formatting or pretty-ing of them, then pass the `--ugly` option, for example:
@@ -120,6 +130,8 @@ alter table `users` add unique `users_email_unique`(`email`);
 -- etc...
 ```
 
+---
+
 ### Usage - Output to TTY instead of to disk
 
 If you wish for the command to export the queries without storing them to disk and stead sending them to TTY, then pass the `--tty` option, for example (which will generate the `up` migrations):
@@ -135,6 +147,8 @@ ADD
 
 -- etc...
 ```
+
+---
 
 ### Usage - Stacking options
 
@@ -191,7 +205,7 @@ composer shell
 
 ## Todo
 
--   Currently I'm using my own forked version of `doctrine/sql-formatter` with a PR'd change. If or once this is merged, then the `repositories` key in `composer.json` can be removed, and the package updated.
+-   Currently I'm using my own forked version of `doctrine/sql-formatter` with a [PR'd change](https://github.com/doctrine/sql-formatter/pull/73). If or once this is merged, then the `repositories` key in `composer.json` can be removed, and the package updated to version `1.1.x`.
 
 ---
 
