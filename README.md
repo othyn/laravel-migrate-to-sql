@@ -1,7 +1,9 @@
 # Laravel: Migrate to SQL
 
-[![PHPUnit](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml)
-[![PHP-CS-Fixer](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml)
+[![Tests](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml)
+[![Style](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml)
+[![Code Coverage](https://img.shields.io/badge/code%20coverage-100%25-success)](https://img.shields.io/badge/code%20coverage-100%25-success)
+[![Licence](https://img.shields.io/github/license/othyn/laravel-migrate-to-sql)](https://img.shields.io/github/license/othyn/laravel-migrate-to-sql)
 
 Quickly convert and export all Laravel migrations into an SQL file, or to TTY, with options to prettify the output via a new handy `artisan` command that extends the default `migrate` command list.
 
@@ -206,6 +208,7 @@ composer shell
 ## Todo
 
 -   Currently I'm using my own forked version of `doctrine/sql-formatter` with a [PR'd change](https://github.com/doctrine/sql-formatter/pull/73). If or once this is merged, then the `repositories` key in `composer.json` can be removed, and the package updated to version `1.1.x`.
+-   Wait for GitHub actions to formally introduce official support for dynamic code coverage badges, or implement [something like this](https://github.com/marketplace/actions/dynamic-badges) that can parse out from a phpunit coverage report. For now, its manual.
 
 ---
 
