@@ -23,8 +23,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:othyn/sql-formatter.git",
-            "no-api": true
+            "url": "https://github.com/othyn/laravel-migrate-to-sql.git"
         }
     ],
     "require": {
