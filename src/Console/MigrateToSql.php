@@ -119,8 +119,8 @@ class MigrateToSql extends BaseCommand
         // Build the default path if not provided
         $this->exportPath = $this->option('exportPath') ?? base_path("migrations.{$this->type}.{$this->currentDateFormatted()}.sql");
 
-        $this->ugly   = $this->option('ugly');
-        $this->tty = $this->option('tty');
+        $this->ugly = $this->option('ugly');
+        $this->tty  = $this->option('tty');
 
         $this->ttyPretty = $this->output->getFormatter()->isDecorated();
     }
