@@ -7,7 +7,7 @@ use Othyn\MigrateToSql\Models\Migration;
 /**
  * Handles exporting Migration Queries to TTY.
  */
-class StdoutMigrationOutput extends BaseMigrationOutput
+class TtyMigrationOutput extends BaseMigrationOutput
 {
     /**
      * Whether the output should be prettified, --no-ansi dependant.
@@ -17,7 +17,7 @@ class StdoutMigrationOutput extends BaseMigrationOutput
     /**
      * Sets ttyPretty.
      */
-    public function setStdoutPretty(bool $ttyPretty): void
+    public function setTtyPretty(bool $ttyPretty): void
     {
         $this->ttyPretty = $ttyPretty;
     }

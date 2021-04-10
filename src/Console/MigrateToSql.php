@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Carbon;
 use Othyn\MigrateToSql\Libraries\MigrationExporter;
 use Othyn\MigrateToSql\MigrationOutputs\FileMigrationOutput;
-use Othyn\MigrateToSql\MigrationOutputs\StdoutMigrationOutput;
+use Othyn\MigrateToSql\MigrationOutputs\TtyMigrationOutput;
 
 /**
  * Helper Artisan command that will export all migrations to an SQL file.
@@ -94,9 +94,9 @@ class MigrateToSql extends BaseCommand
         $migrationExporter = new MigrationExporter($this->getMigrationPaths());
 
         if ($this->tty) {
-            $migrationOutput = new StdoutMigrationOutput($this->output, $this->ugly);
+            $migrationOutput = new TtyMigrationOutput($this->output, $this->ugly);
 
-            $migrationOutput->setStdoutPretty($this->ttyPretty);
+            $migrationOutput->setTtyPretty($this->ttyPretty);
         } else {
             $migrationOutput = new FileMigrationOutput($this->output, $this->ugly);
 
