@@ -270,6 +270,7 @@ composer shell
 
 ## Todo
 
+-   Maybe this should be more Laravel-ified in its default behaviour, in that instead of it generating all migrations by default, it should instead generate for the current default database connection defined by the `.env`, leaving in the option to override this for just the command via the existing `--connection` option. Then adding a new `--all` option to trigger a null connection resolve to generate all the commands, which is currently the default implementation. 
 -   Implement matrix testing for all supported Laravel versions. Or, perhaps instead branching versions so the paired version of the orchestra test framework can be appropriately used for the Laravel version that is being tested, instead of having a universal plugin. At which point it may be worth aligning the semver version of the project with the Laravel version for easy user reference.
 -   Currently I'm using my own forked version of `doctrine/sql-formatter` with a [PR'd change](https://github.com/doctrine/sql-formatter/pull/73). If or once this is merged, then the `repositories` key in `composer.json` can be removed, and the package updated to version `1.1.x`.
 -   Wait for GitHub actions to formally introduce official support for dynamic code coverage badges, or implement [something like this](https://github.com/marketplace/actions/dynamic-badges) that can parse out from a phpunit coverage report. For now, its manual.
