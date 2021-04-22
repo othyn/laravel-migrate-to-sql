@@ -66,7 +66,8 @@ The following table describes which version of this packagae you will require fo
 
 | Package Version | PHP Version  | Laravel Version |
 | --------------- | ------------ | --------------- |
-| ^1.0.0          | ^7.4 \| ^8.0 | ^7.0 \| ^8.0    |
+| ^1.1.0          | ^7.4 \| ^8.0 | ^7.0 \| ^8.0    |
+| ^1.0.0          | -            | -               |
 
 ---
 
