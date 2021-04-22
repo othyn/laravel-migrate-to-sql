@@ -2,7 +2,9 @@
 
 namespace Othyn\MigrateToSql\Libraries;
 
+use Illuminate\Database\Connection;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Collection;
 use Othyn\MigrateToSql\Interfaces\MigrationOutputInterface;
 use Othyn\MigrateToSql\Models\Migration;
 
@@ -18,6 +20,17 @@ class MigrationExporter
     protected Migrator $migrator;
 
     /**
+     * Stores the raw connection name for checking if the user optioned it as the connection instance will load the
+     * default when null is passed.
+     */
+    protected ?string $connectionName;
+
+    /**
+     * The database connection to use when polling the database in pretend mode to generate the SQL queries.
+     */
+    protected Connection $databaseConnection;
+
+    /**
      * The loaded migration files from disk.
      */
     protected array $migrationFiles;
@@ -30,9 +43,13 @@ class MigrationExporter
     /**
      * Setup time!
      */
-    public function __construct(array $migrationFilePaths)
+    public function __construct(array $migrationFilePaths, ?string $connection)
     {
         $this->migrator = app('migrator');
+
+        $this->connectionName = $connection;
+
+        $this->databaseConnection = $this->migrator->resolveConnection($connection);
 
         $this->loadMigrationFiles($migrationFilePaths);
     }
@@ -42,7 +59,22 @@ class MigrationExporter
      */
     protected function loadMigrationFiles(array $migrationFilePaths): void
     {
-        $this->migrationFiles = $this->migrator->getMigrationFiles($migrationFilePaths);
+        $runMigrations = [];
+
+        // Only check for existing values if the user has specified a connection indicating that they want to generate
+        // a partial patch file based on the migration state of the connection database.
+        if (!is_null($this->connectionName)) {
+            $runMigrations = $this->migrator->getRepository()->getRan();
+        }
+
+        $migrationFiles = $this->migrator->getMigrationFiles($migrationFilePaths);
+
+        $this->migrationFiles = Collection::make($migrationFiles)
+                ->reject(function ($file) use ($runMigrations) {
+                    return in_array($this->migrator->getMigrationName($file), $runMigrations);
+                })
+                ->values()
+                ->all();
 
         $this->migrator->requireFiles($this->migrationFiles);
     }
@@ -61,9 +93,9 @@ class MigrationExporter
     public function export(string $type): bool
     {
         foreach ($this->migrationFiles as $migrationFile) {
-            $migration = new Migration($migrationFile);
+            $migration = new Migration($this->migrator, $migrationFile);
 
-            $migration->generateQueries($type);
+            $migration->generateQueries($this->databaseConnection, $type);
 
             $this->output->processMigration($migration);
         }

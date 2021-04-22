@@ -25,11 +25,48 @@ $ php artisan migrate:to-sql
 
 ## Installation
 
-Via Composer, you can run a `composer require` which will grab the latest version:
+Via Composer, you can run a `composer require` which will grab the latest version of this repo via [packagist](https://packagist.org/packages/othyn/laravel-migrate-to-sql). Although, for the time being you will need to first add the custom repo to load the patched version of `doctrine/sql-formatter` until the [PR is merged](#todo):
+
+```json
+    ...
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/othyn/sql-formatter"
+        }
+    ],
+    ...
+```
+
+If you want to have composer use your SSH key instead of an oauth token (like I do) when fetching the package, you can use the `no-api` key:
+
+```json
+    ...
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/othyn/sql-formatter",
+            "no-api": true
+        }
+    ],
+    ...
+```
+
+Then you can run composer require as normal:
 
 ```sh
 composer require othyn/laravel-migrate-to-sql
 ```
+
+---
+
+### Installation - This Package Version vs. PHP & Laravel Versions
+
+The following table describes which version of this packagae you will require for the given PHP & Laravel version.
+
+| Package Version | PHP Version  | Laravel Version |
+| --------------- | ------------ | --------------- |
+| ^1.0.0          | ^7.4 \| ^8.0 | ^7.0 \| ^8.0    |
 
 ---
 
@@ -47,10 +84,11 @@ Usage:
   migrate:to-sql [options]
 
 Options:
-      --type[=TYPE]           Which type of migration to generate the SQL for; up or down [default: "up"]
-      --exportPath[=PATH]     The output path for the generated SQL file, defaults to base_path() of the application
-      --ugly                  Queries should not be prettified as part of the output process
-      --tty                   Output should be sent to TTY instead of written to disk, use `--no-ansi` to disable output formatting
+      --type[=TYPE]                  Which type of migration to generate the SQL for; up or down [default: "up"]
+      --exportPath[=PATH]            The output path for the generated SQL file, defaults to base_path() of the application
+      --ugly                         Queries should not be prettified as part of the output process
+      --tty                          Output should be sent to TTY instead of written to disk, use `--no-ansi` to disable output formatting
+      --connection=[=CONNECTION]     The database connection in which to generate migrations against. The default will generate all migrations, or connect it to an active database connection to only generate for migrations that have not already been run
 
     ... laravel default options ...
 ```
@@ -152,20 +190,42 @@ ADD
 
 ---
 
-### Usage - Stacking options
+### Usage - Custom database connection
 
-Options can be stacked ontop of each other to get more customised output, for example you could do this:
+If you wish for the command to use a custom database connection, so that it can read the migration state from the provided database connection and only generate queries for migrations that have not been run, then pass it with the `--connection` option, for example:
 
 ```sh
-$ php artisan migrate:to-sql --type=down --ugly --tty
+$ php artisan migrate:to-sql --connection=sqlite
+```
 
--- 2014_10_12_000000_create_users_table:
-drop table if exists `users`;
+which will generate the `up` migrations to `~/migrations.up.sql` on disk, for the `sqlite` connection, only containing migrations not run against that connection, in the following structure:
+
+```sql
+-- 2019_08_19_000000_create_failed_jobs_table:
+CREATE TABLE "failed_jobs" (
+    "id" integer NOT NULL PRIMARY KEY autoincrement,
+    "uuid" varchar NOT NULL, "connection" text NOT NULL,
+    "queue" text NOT NULL, "payload" text NOT NULL,
+    "exception" text NOT NULL, "failed_at" datetime DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 -- etc...
 ```
 
-To generate only `down` migrations, to TTY only without SQL formatting taking place.
+### Usage - Combining multiple options
+
+Options can be combined with each other to get a more customised output, for example you could do this:
+
+```sh
+$ php artisan migrate:to-sql --connection=sqlite --type=down --ugly --tty
+
+-- 2019_08_19_000000_create_failed_jobs_table:
+drop table if exists "failed_jobs";
+
+-- etc...
+```
+
+To generate only `down` migrations, against the `sqlite` connection, to TTY only and without any SQL formatting taking place.
 
 ---
 
@@ -207,6 +267,7 @@ composer shell
 
 ## Todo
 
+-   Implement matrix testing for all supported Laravel versions. Or, perhaps instead branching versions so the paired version of the orchestra test framework can be appropriately used for the Laravel version that is being tested, instead of having a universal plugin. At which point it may be worth aligning the semver version of the project with the Laravel version for easy user reference.
 -   Currently I'm using my own forked version of `doctrine/sql-formatter` with a [PR'd change](https://github.com/doctrine/sql-formatter/pull/73). If or once this is merged, then the `repositories` key in `composer.json` can be removed, and the package updated to version `1.1.x`.
 -   Wait for GitHub actions to formally introduce official support for dynamic code coverage badges, or implement [something like this](https://github.com/marketplace/actions/dynamic-badges) that can parse out from a phpunit coverage report. For now, its manual.
 
@@ -215,6 +276,31 @@ composer shell
 ## Changelog
 
 Any and all project changes for releases should be documented below. Versioning follows the [SEMVER](https://semver.org/) standard.
+
+---
+
+### Version 1.1.0
+
+Custom DB connection support for generating partial, only non-migrated patch files.
+
+#### Added
+
+-   Packagist link now added in the installation part of the docs
+-   Binding the package version to a Laravel version for compatibility safety
+-   Binding the package version to a PHP version for compatibility safety
+-   Custom connection support for generating the migration patch files against, so you can generate only the required SQL statements into the patch file
+
+#### Changed
+
+-   Everything
+
+#### Fixed
+
+-   When tests failed, they could leave fragments behind on disk that could pollute other tests
+
+#### Removed
+
+-   Everything
 
 ---
 

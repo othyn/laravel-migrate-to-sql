@@ -12,16 +12,6 @@ use Illuminate\Support\Arr;
 class Migration
 {
     /**
-     * The migrator instance.
-     */
-    protected Migrator $migrator;
-
-    /**
-     * The database connection to use when polling the database in pretend mode to generate the SQL queries.
-     */
-    public Connection $databaseConnection;
-
-    /**
      * The migration file path on disk.
      */
     public string $migrationFile;
@@ -49,18 +39,13 @@ class Migration
     /**
      * Setup!
      */
-    public function __construct(string $migrationFile)
+    public function __construct(Migrator $migrator, string $migrationFile)
     {
-        $this->migrator = app('migrator');
-
-        // Using a null connection is easier than an sqlite in :memory:
-        $this->databaseConnection = $this->migrator->resolveConnection(null);
-
         $this->migrationFile = $migrationFile;
 
-        $this->migrationFilename = $this->migrator->getMigrationName($migrationFile);
+        $this->migrationFilename = $migrator->getMigrationName($migrationFile);
 
-        $this->migrationInstance = $this->migrator->resolve($this->migrationFilename);
+        $this->migrationInstance = $migrator->resolve($this->migrationFilename);
 
         // SQL file comment style of the filename for reference in output
         $this->nameComment = "-- {$this->migrationFilename}:";
@@ -69,9 +54,9 @@ class Migration
     /**
      * Gets all the queries as SQL by running them against the database in pretend mode.
      */
-    public function generateQueries(string $type): void
+    public function generateQueries(Connection $databaseConnection, string $type): void
     {
-        $queryLogs = $this->databaseConnection
+        $queryLogs = $databaseConnection
             ->pretend(function () use ($type) {
                 if (method_exists($this->migrationInstance, $type)) {
                     $this->migrationInstance->{$type}();

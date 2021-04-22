@@ -23,7 +23,8 @@ class MigrateToSql extends BaseCommand
                             {--type=up : Which type of migration to generate the SQL for; up or down}
                             {--exportPath= : The output path for the generated SQL file, defaults to base_path() of the application}
                             {--ugly : Queries should not be prettified as part of the output process}
-                            {--tty : Output should be sent to TTY instead of written to disk, use `--no-ansi` to disable output formatting}';
+                            {--tty : Output should be sent to TTY instead of written to disk, use `--no-ansi` to disable output formatting}
+                            {--connection= : The database connection in which to generate migrations against. The default will generate all migrations, or connect it to an active database connection to only generate for migrations that have not already been run}';
 
     /**
      * The console command description.
@@ -63,6 +64,11 @@ class MigrateToSql extends BaseCommand
     protected bool $tty;
 
     /**
+     * Database connection to use when generating migrations.
+     */
+    protected ?string $connection;
+
+    /**
      * TTY output should be prettified.
      */
     protected bool $ttyPretty;
@@ -91,7 +97,7 @@ class MigrateToSql extends BaseCommand
         // This cannot be done in the constructor, as Symfony hasn't done its thing yet
         $this->parseArgs();
 
-        $migrationExporter = new MigrationExporter($this->getMigrationPaths());
+        $migrationExporter = new MigrationExporter($this->getMigrationPaths(), $this->connection);
 
         if ($this->tty) {
             $migrationOutput = new TtyMigrationOutput($this->output, $this->ugly);
@@ -119,8 +125,9 @@ class MigrateToSql extends BaseCommand
         // Build the default path if not provided
         $this->exportPath = $this->option('exportPath') ?? base_path("migrations.{$this->type}.{$this->currentDateFormatted()}.sql");
 
-        $this->ugly = $this->option('ugly');
-        $this->tty  = $this->option('tty');
+        $this->ugly       = $this->option('ugly');
+        $this->tty        = $this->option('tty');
+        $this->connection = $this->option('connection');
 
         $this->ttyPretty = $this->output->getFormatter()->isDecorated();
     }
