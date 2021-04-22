@@ -294,7 +294,7 @@ Custom DB connection support for generating partial, only non-migrated patch fil
 
 #### Changed
 
--   Everything
+-   Nothing
 
 #### Fixed
 
@@ -303,7 +303,7 @@ Custom DB connection support for generating partial, only non-migrated patch fil
 
 #### Removed
 
--   Everything
+-   Nothing
 
 ---
 
