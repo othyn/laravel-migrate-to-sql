@@ -66,7 +66,7 @@ The following table describes which version of this packagae you will require fo
 
 | Package Version | PHP Version  | Laravel Version |
 | --------------- | ------------ | --------------- |
-| ^1.1.0          | ^7.4 \| ^8.0 | ^7.0 \| ^8.0    |
+| ^2.0.0          | ^7.4 \| ^8.0 | ^7.0 \| ^8.0    |
 | ^1.0.0          | -            | -               |
 
 ---
@@ -282,9 +282,11 @@ Any and all project changes for releases should be documented below. Versioning 
 
 ---
 
-### Version 1.1.0
+### Version 2.0.0
 
 Custom DB connection support for generating partial, only non-migrated patch files.
+
+The original `v1.1.0` patch that this was should've triggered this major semver version bump due to the new composer version dependencies. This causing a breaking change to build dependencies in environments accepting the original minor version upgrade, apologies for any inconvenience caused.
 
 #### Added
 
