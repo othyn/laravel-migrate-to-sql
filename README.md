@@ -297,6 +297,7 @@ Custom DB connection support for generating partial, only non-migrated patch fil
 #### Fixed
 
 -   When tests failed, they could leave fragments behind on disk that could pollute other tests
+-   Force composer to use `"spatie/macroable": "^1.0"` so that the dependency doesn't fall through for `"php": "^7.4"` as composer attempts to fullfill this by using `"spatie/macroable": "^2.0"` which is not required
 
 #### Removed
 
