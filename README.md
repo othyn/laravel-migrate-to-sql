@@ -212,6 +212,8 @@ CREATE TABLE "failed_jobs" (
 -- etc...
 ```
 
+---
+
 ### Usage - Combining multiple options
 
 Options can be combined with each other to get a more customised output, for example you could do this:
