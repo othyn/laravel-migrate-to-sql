@@ -13,38 +13,28 @@ class ItGeneratesSqlFromMigrationsForTypesTest extends TestCase
         return [
             'type up by default' => [
                 'up',
-                [
-                    'type' => '',
-                    'ugly' => false,
-                ],
+                '',
+                false,
             ],
             'type up' => [
                 'up',
-                [
-                    'type' => 'up',
-                    'ugly' => false,
-                ],
+                'up',
+                false,
             ],
             'type down' => [
                 'down',
-                [
-                    'type' => 'down',
-                    'ugly' => false,
-                ],
+                'down',
+                false,
             ],
             'type up but damn its ugly' => [
                 'up',
-                [
-                    'type' => 'up',
-                    'ugly' => true,
-                ],
+                'up',
+                true,
             ],
             'type down but damn its ugly' => [
                 'down',
-                [
-                    'type' => 'down',
-                    'ugly' => true,
-                ],
+                'down',
+                true,
             ],
         ];
     }
@@ -52,11 +42,9 @@ class ItGeneratesSqlFromMigrationsForTypesTest extends TestCase
     /**
      * @dataProvider provideTypes
      */
-    public function test_the_command_exports_migrations_to_file(string $expectedType, array $actualTypeAndUgly): void
+    public function test_the_command_exports_migrations_to_file(string $expectedType, string $actualType, bool $actualUgly): void
     {
         $this->withMigrations();
-        $actualType = $actualTypeAndUgly['type'];
-        $actualUgly = $actualTypeAndUgly['ugly'];
 
         $command = "migrate:to-sql --type={$actualType}".($actualUgly ? ' --ugly' : '');
 
@@ -83,11 +71,9 @@ class ItGeneratesSqlFromMigrationsForTypesTest extends TestCase
     /**
      * @dataProvider provideTypes
      */
-    public function test_the_command_exports_migrations_to_tty(string $expectedType, array $actualTypeAndUgly): void
+    public function test_the_command_exports_migrations_to_tty(string $expectedType, string $actualType, bool $actualUgly): void
     {
         $this->withMigrations();
-        $actualType = $actualTypeAndUgly['type'];
-        $actualUgly = $actualTypeAndUgly['ugly'];
 
         $command = "migrate:to-sql --type={$actualType} --tty".($actualUgly ? ' --ugly' : '');
 
@@ -109,11 +95,10 @@ class ItGeneratesSqlFromMigrationsForTypesTest extends TestCase
     /**
      * @dataProvider provideTypes
      */
-    public function test_the_command_exports_migrations_to_a_custom_path(string $expectedType, array $actualTypeAndUgly): void
+    public function test_the_command_exports_migrations_to_a_custom_path(string $expectedType, string $actualType, bool $actualUgly): void
     {
         $this->withMigrations();
-        $actualType         = $actualTypeAndUgly['type'];
-        $actualUgly         = $actualTypeAndUgly['ugly'];
+
         $expectedCustomPath = base_path(time().'.custom.sql');
 
         $command = "migrate:to-sql --type={$actualType} --exportPath={$expectedCustomPath}".($actualUgly ? ' --ugly' : '');
@@ -141,11 +126,8 @@ class ItGeneratesSqlFromMigrationsForTypesTest extends TestCase
     /**
      * @dataProvider provideTypes
      */
-    public function test_the_command_exports_migrations_for_a_custom_connection(string $expectedType, array $actualTypeAndUgly): void
+    public function test_the_command_exports_migrations_for_a_custom_connection(string $expectedType, string $actualType, bool $actualUgly): void
     {
-        $actualType = $actualTypeAndUgly['type'];
-        $actualUgly = $actualTypeAndUgly['ugly'];
-
         // This refers to Orchestra's testing connection that sets the driver to sqlite and database to :memory:
         $connection = 'testing';
 
