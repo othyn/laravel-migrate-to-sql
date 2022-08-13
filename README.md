@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/tests.yml)
 [![Style](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml/badge.svg)](https://github.com/othyn/laravel-migrate-to-sql/actions/workflows/style.yml)
+[![Downloads](https://img.shields.io/packagist/dt/othyn/laravel-migrate-to-sql?color=green)](#installation)
 [![Code Coverage](https://img.shields.io/badge/code%20coverage-100%25-success)](https://img.shields.io/badge/code%20coverage-100%25-success)
 [![Licence](https://img.shields.io/github/license/othyn/laravel-migrate-to-sql)](https://img.shields.io/github/license/othyn/laravel-migrate-to-sql)
 
@@ -28,20 +29,17 @@ $ php artisan migrate:to-sql
 Via Composer, you can run a `composer require` which will grab the latest version of this repo via [packagist](https://packagist.org/packages/othyn/laravel-migrate-to-sql). Although, for the time being you will need to first add the custom repo to load the patched version of `doctrine/sql-formatter` until the [PR is merged](#todo):
 
 ```json
-    ...
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/othyn/sql-formatter"
         }
     ],
-    ...
 ```
 
 If you want to have composer use your SSH key instead of an oauth token (like I do) when fetching the package, you can use the `no-api` key:
 
 ```json
-    ...
     "repositories": [
         {
             "type": "vcs",
@@ -49,7 +47,6 @@ If you want to have composer use your SSH key instead of an oauth token (like I 
             "no-api": true
         }
     ],
-    ...
 ```
 
 Then you can run composer require as normal:
